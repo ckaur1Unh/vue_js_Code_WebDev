@@ -1,26 +1,78 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    
+    <HeaderTop Organization="University Of New Haven" titleName="Events Calender" />
+    <BookBox :events="events" />
+    
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import HeaderTop from './components/HeaderTop.vue'
+import BookBox from './components/BookBox.vue' 
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components: {    
+    HeaderTop,
+    BookBox
+  },
+
+  data(){
+    return {
+      events: []
+    }
+
+  },
+
+  methods: {
+
+    // promises
+
+      async fetchEvents(){
+          const res = await fetch('https://itchy-lingerie-deer.cyclic.app/api')
+          const data = await res.json()
+          console.log( data.events )
+          return data.events
+      }
+
+  },
+  async created(){
+    this.events = await this.fetchEvents()
   }
 }
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+.container {
+  max-width: 1200px;
+  margin: 30px auto;
+  overflow: auto;
+  min-height: 500px;
+  border: 0.3em solid black;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+div{
+  margin-bottom: 0.5em;
+}
+img{
+  width: 80px;
+  height: 80px;
+}
+
 </style>
